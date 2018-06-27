@@ -1,0 +1,105 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int n,k=4,r,t_c_1[20],a[20],b[20],q[20],transmitted[20],mid[20],received[20],rem[20],choice,new_bit1,index1;
+int i,j,x,y,z,num;
+int d[4] = {1,0,1,1};
+
+int remainder_func(int t_c[],int m)
+{	
+	int flag;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=i,l=0;j<k+i;j++,l++)
+		{
+			t_c[j] = t_c[j] ^ d[l];			
+		}	
+		if(t_c[i+1] == 0)
+		{			
+			i++;	
+		}
+	}
+	
+	for(y=0;y<n;y++)
+		mid[y] = a[y];
+	if(m==1)
+	{
+		cout<<"\nRemainder bits are ";
+		for(y=n,z=0;y<n+k-1;y++,z++)
+		{
+			rem[z] = t_c[y];
+			cout<<t_c[y]<<"  ";
+			mid[y] = t_c[y];
+			if(t_c[y] == 1)
+				flag =1;
+		}
+	}
+	return flag;
+}
+int main()
+{
+	int check = 0;
+	cout<<"\nEnter the length of data word : ";
+	cin>>n;	
+	r = k-1;
+	cout<<"\nEnter the data bits : ";
+	for( i=0 ; i<n ; i++)
+	{
+		cin>>a[i];
+		t_c_1[i] = a[i];
+	}
+	cout<<"\nThe divisor bits : ";
+	for( j=0 ; j<n ; j++)
+		cout<<d[j]<<" ";
+	
+	cout<<endl;
+	check = remainder_func(t_c_1,1);
+	cout<<"\nTransmitted Codeword : ";
+	for(y=0;y<n+k-1;y++)
+	{
+		transmitted[y] = mid[y];
+		cout<<transmitted[y]<<"  ";	
+		received[y] = transmitted[y];
+	}		
+	cout<<"\nReceived Codeword : ";
+	for(y=0;y<n+k-1;y++)
+		cout<<received[y]<<"  ";
+		
+	check = remainder_func(received,0);
+	
+	if(check == 0)
+		cout<<"\nVALID KEYWORD";
+	else
+		cout<<"\nINVALID KEYWORD";	
+		
+	for( j=0 ; j<n+k-1 ; j++)
+		received[j] = transmitted[j];
+	cout<<"\nHow many bits do you want to change : ";
+	cin>>num;
+	if(num == 0)
+		 exit(0);
+		 
+	cout<<"\nEnter the bit nos starting with 0 from left : ";
+	for( j = 0;j<num;j++)		
+	{
+		cin>>index1;
+		if(received[index1] == 1)
+			received[index1] = 0 ;
+		else
+			received[index1] = 1;	
+	}	
+	cout<<"\nTransmitted codeword : \t    ";
+	for( j=0 ; j<n+k-1 ; j++)
+			cout<<transmitted[j]<<"  ";					
+	
+	cout<<"\nModifed Received codeword : ";			
+	for( j=0 ; j<n+k-1 ; j++)
+			cout<<received[j]<<"  ";
+	
+	check = remainder_func(received,1);
+	
+	if(check == 0)
+		cout<<"\nVALID KEYWORD\n";
+	else
+		cout<<"\nINVALID KEYWORD\n";			
+}
