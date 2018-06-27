@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int d[10],d_copy[10],n,num,index,flag;
+int i,j,k;
+
+main()
+{
+	cout<<"\nEnter the length of data word : ";
+	cin>>n;
+	cout<<"\nEnter the bits of data word : ";
+	d[n+1] = 0;
+	for(i=0;i<n;i++)
+	{
+		cin>>d[i];
+		d_copy[i] = d[i];
+		d[n] = d[n] ^ d[i];
+	}
+	d_copy[n] = d[n];
+	
+	cout<<"\nThe codeword sent with even parity : ";
+	for(i=0;i<n+1;i++)
+		cout<<d[i]<<" ";
+		
+	cout<<"\nHow many bits do you want to change : ";
+	cin>>num;
+	cout<<"\nEnter the bit nos starting with 0 from left : ";
+	for( j = 0;j<num;j++)		
+	{
+		cin>>index;
+		if(d[index] == 1)
+			d[index] = 0 ;
+		else
+			d[index] = 1;	
+	}	
+	cout<<"\nTransmitted codeword : ";
+	for(i=0;i<n+1;i++)
+		cout<<d_copy[i]<<" ";
+		
+	cout<<"\nReceived codeword    : ";
+	for(i=0;i<n+1;i++)
+		cout<<d[i]<<" ";
+	flag = 0;
+	for(i=0;i<n+1;i++)
+		flag = flag ^ d[i];
+	
+	if(flag == 0)
+		cout<<"\nVALID CODEWORD";
+	else
+		cout<<"\nINVALID CODEWORD";		
+}
